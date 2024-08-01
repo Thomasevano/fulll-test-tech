@@ -1,0 +1,12 @@
+{
+	"type": "module",
+	"scripts": {
+		"test": "cucumber-js"
+	},
+	"devDependencies": {
+		"@cucumber/cucumber": "^10.8.0",
+		"@types/node": "^20.14.11",
+		"typescript": "^5.5.4",
+		"vite": "^5.3.4"
+	}
+}

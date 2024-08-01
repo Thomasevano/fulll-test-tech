@@ -1,0 +1,10 @@
+{
+  "default": {
+    "--format-options": {
+      "snippetInterface": "synchronous"
+    },
+    "import": [
+      "features/**/*.ts"
+    ]
+  }
+}
