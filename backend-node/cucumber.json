@@ -3,8 +3,11 @@
     "--format-options": {
       "snippetInterface": "synchronous"
     },
+    "loader": [
+      "ts-node/esm"
+    ],
     "import": [
-      "features/**/*.ts"
+      "features/step_definitions/*.steps.ts"
     ]
   }
 }
