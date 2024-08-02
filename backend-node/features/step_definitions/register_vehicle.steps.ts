@@ -6,6 +6,7 @@ import { RegisterVehicleCommand } from '../../src/App/commands/definitions/regis
 import { RegisterVehicleCommandHandler } from '../../src/App/commands/handler/register_vehicle_handler.js';
 
 let fleet: Fleet;
+let otherUserfleet: Fleet;
 let vehicle: Vehicle;
 let error
 
@@ -13,8 +14,18 @@ Given('my fleet', function () {
   fleet = new Fleet(new Map());
 });
 
+Given('the fleet of another user', function () {
+  otherUserfleet = new Fleet(new Map());
+});
+
 Given('a vehicle', function () {
   vehicle = new Vehicle('123', 'Toyota', 'Corolla', 'ABC123');
+});
+
+Given('this vehicle has been registered into the other user\'s fleet', function () {
+  const command = new RegisterVehicleCommand(vehicle, otherUserfleet);
+  const handler = new RegisterVehicleCommandHandler(otherUserfleet);
+  handler.handle(command);
 });
 
 When('I register this vehicle into my fleet', function () {
@@ -47,4 +58,3 @@ Then('I should be informed this this vehicle has already been registered into my
   assert.ok(error instanceof Error);
   assert.equal(error.message, 'Vehicle already registered');
 });
-
