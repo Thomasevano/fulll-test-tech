@@ -1,11 +1,14 @@
 {
 	"type": "module",
 	"scripts": {
+		"build": "npx tsc",
+		"start": "pnpm run build && cd dist/ && node src/index.js",
 		"test": "cucumber-js"
 	},
 	"devDependencies": {
 		"@cucumber/cucumber": "^10.8.0",
 		"@types/node": "^20.14.11",
+		"commander": "^12.1.0",
 		"ts-node": "^10.9.2",
 		"typescript": "^5.5.4",
 		"vite": "^5.3.4"
