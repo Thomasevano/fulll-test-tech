@@ -1,7 +1,11 @@
 import { Vehicle } from "./vehicle";
 
 export class Fleet {
-  constructor(private vehicles: Map<string, Vehicle>) { }
+  constructor(
+    public id: number,
+    private vehicles: Map<string, Vehicle>,
+    private userId: number
+  ) { }
 
   addVehicle(vehicle: Vehicle) {
     if (this.vehicles.has(vehicle.id)) {
