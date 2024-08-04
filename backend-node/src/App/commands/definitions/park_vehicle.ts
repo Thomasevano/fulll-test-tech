@@ -1,5 +1,5 @@
-import { Location } from "../../../Domain/location";
-import { Vehicle } from "../../../Domain/vehicle";
+import { Location } from "../../../Domain/entities/location";
+import { Vehicle } from "../../../Domain/entities/vehicle";
 
 export class ParkVehicleCommand {
   constructor(public vehicle: Vehicle, public location: Location) { }

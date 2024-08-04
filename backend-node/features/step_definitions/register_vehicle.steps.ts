@@ -1,7 +1,7 @@
 import * as assert from "assert"
 import { Given, When, Then } from '@cucumber/cucumber';
-import { Vehicle } from '../../src/Domain/vehicle.js';
-import { Fleet } from '../../src/Domain/fleet.js';
+import { Vehicle } from '../../src/Domain/entities/vehicle.js';
+import { Fleet } from '../../src/Domain/entities/fleet.js';
 import { RegisterVehicleCommand } from '../../src/App/commands/definitions/register_vehicle.js';
 import { RegisterVehicleCommandHandler } from '../../src/App/commands/handler/register_vehicle_handler.js';
 
@@ -11,11 +11,15 @@ let vehicle: Vehicle;
 let error
 
 Given('my fleet', function () {
-  fleet = new Fleet(1, new Map(), 1);
+  const fleetId: number = 1
+  let userId: number = 1
+  fleet = new Fleet(fleetId, new Map(), userId);
 });
 
 Given('the fleet of another user', function () {
-  otherUserfleet = new Fleet(2, new Map(), 2);
+  let anotherFleetId: number = 2
+  let anotherUserId: number = 2
+  otherUserfleet = new Fleet(anotherFleetId, new Map(), anotherUserId);
 });
 
 Given('a vehicle', function () {

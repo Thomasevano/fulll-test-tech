@@ -1,8 +1,8 @@
 import * as assert from "assert"
 import { Given, When, Then, Before } from '@cucumber/cucumber';
-import { Vehicle } from '../../src/Domain/vehicle.js';
-import { Fleet } from '../../src/Domain/fleet.js';
-import { Location } from "../../src/Domain/location.js";
+import { Vehicle } from '../../src/Domain/entities/vehicle.js';
+import { Fleet } from '../../src/Domain/entities/fleet.js';
+import { Location } from "../../src/Domain/entities/location.js";
 import { RegisterVehicleCommand } from '../../src/App/commands/definitions/register_vehicle.js';
 import { RegisterVehicleCommandHandler } from '../../src/App/commands/handler/register_vehicle_handler.js';
 import { ParkVehicleCommand } from "../../src/App/commands/definitions/park_vehicle.js";

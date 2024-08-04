@@ -1,5 +1,5 @@
 import { GetVehicleLocationQuery } from "../definitions/get_vehicle_location_query";
-import { Vehicle } from "../../../Domain/vehicle";
+import { Vehicle } from "../../../Domain/entities/vehicle";
 
 export class GetVehicleLocationQueryHandler {
   getVehiculeLocation(query: GetVehicleLocationQuery) {
