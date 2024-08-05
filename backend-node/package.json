@@ -2,7 +2,8 @@
 	"type": "module",
 	"scripts": {
 		"build": "npx tsc",
-		"start": "pnpm run build && cd dist/ && node src/index.js",
+		"db:init": "node dist/database.js",
+		"start": "node dist/src/index.js",
 		"test": "cucumber-js"
 	},
 	"devDependencies": {
@@ -12,5 +13,8 @@
 		"ts-node": "^10.9.2",
 		"typescript": "^5.5.4",
 		"vite": "^5.3.4"
+	},
+	"dependencies": {
+		"sqlite3": "^5.1.7"
 	}
 }
