@@ -1,8 +1,10 @@
 {
+  "exclude": ["features/**/*"],
   "compilerOptions": {
-    // "rootDir": "src",
-    "outDir": "dist",
+    "esModuleInterop": true,
     "module": "esnext",
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "outDir": "dist",
+    "target": "esnext",
   }
 }
