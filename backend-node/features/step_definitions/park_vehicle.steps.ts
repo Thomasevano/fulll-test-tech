@@ -9,6 +9,8 @@ import { ParkVehicleCommand } from "../../src/App/commands/definitions/park_vehi
 import { ParkVehicleCommandHandler } from "../../src/App/commands/handler/park_vehicle_handler.js";
 import { GetVehicleLocationQuery } from "../../src/App/queries/definitions/get_vehicle_location_query.js";
 import { GetVehicleLocationQueryHandler } from "../../src/App/queries/handler/get_vehicle_location_query_handler.js";
+import { FleetRepository } from "../../src/Domain/repositories/fleet.repository.js";
+import { db } from "../../db/database.js";
 
 let vehicle: Vehicle;
 let location: Location;
@@ -16,14 +18,17 @@ let command;
 let otherLocation: Location;
 let error;
 
+const fleetRepository: FleetRepository = new FleetRepository(db);
+const RegisterVehicleHandler: RegisterVehicleCommandHandler = new RegisterVehicleCommandHandler(fleetRepository);
+
 Before(function () {
-  vehicle = new Vehicle('123', 'Toyota', 'Corolla', 'ABC123', undefined);
+  vehicle = new Vehicle(12, 'ABC123');
   const fleetId: number = 1
   const userId: number = 1
   const fleet = new Fleet(fleetId, userId);
-  const registerCommand = new RegisterVehicleCommand(vehicle, fleet);
-  const registerHandler = new RegisterVehicleCommandHandler();
-  registerHandler.handle(registerCommand);
+  fleetRepository.save(fleet)
+  const command = new RegisterVehicleCommand(fleetId, vehicle);
+  RegisterVehicleHandler.handle(command);
 });
 
 Given('a location', function () {

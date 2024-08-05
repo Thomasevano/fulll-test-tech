@@ -1,16 +1,22 @@
-import sqlite3 from 'sqlite3'
+import Database from 'better-sqlite3'
 
-export const db = new sqlite3.Database('db/fleet.db');
+let dbFileName: string
 
-db.serialize(() => {
-  db.run(`
+if (process.env.NODE_ENV === 'test') {
+  dbFileName = 'db/test.db'
+} else {
+  dbFileName = 'db/fleet.db'
+}
+export const db = new Database(dbFileName);
+
+db.exec(`
     CREATE TABLE IF NOT EXISTS users (
       id INTEGER PRIMARY KEY,
       username TEXT
     )
   `);
 
-  db.run(`
+db.exec(`
     CREATE TABLE IF NOT EXISTS fleets (
       id INTEGER PRIMARY KEY,
       user_id INTEGER NOT NULL,
@@ -18,17 +24,17 @@ db.serialize(() => {
     )
   `);
 
-  db.run(`
+db.exec(`
     CREATE TABLE IF NOT EXISTS vehicles (
       id TEXT PRIMARY KEY,
-      brand TEXT NOT NULL,
-      model TEXT NOT NULL,
+      brand TEXT,
+      model TEXT,
       licensePlate TEXT NOT NULL,
       location TEXT
     )
   `);
 
-  db.run(`
+db.exec(`
     CREATE TABLE IF NOT EXISTS fleet_vehicles (
       fleetId TEXT NOT NULL,
       vehicleId TEXT NOT NULL,
@@ -37,4 +43,21 @@ db.serialize(() => {
       FOREIGN KEY (vehicleId) REFERENCES vehicles (id)
     )
   `);
-});
+
+// Check if users already exist in the database
+const adminUser = db.prepare('SELECT * FROM users WHERE username = ?').get('admin');
+const user1User = db.prepare('SELECT * FROM users WHERE username = ?').get('user1');
+
+if (!adminUser) {
+  db.exec(`
+    INSERT INTO users (username) VALUES
+      ('admin')
+  `);
+}
+
+if (!user1User) {
+  db.exec(`
+    INSERT INTO users (username) VALUES
+      ('user1')
+  `);
+}

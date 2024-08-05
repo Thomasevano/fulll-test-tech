@@ -1,13 +1,14 @@
 import { Location } from "./location";
 
 export class Vehicle {
-  constructor(
-    public id: string,
-    public brand: string,
-    public model: string,
-    public licensePlate: string,
-    public location: Location
-  ) { }
+  public id: number
+  public location: Location
+  public licensePlate: string
+
+  constructor(id: number, licensePlate: string) {
+    this.id = id
+    this.licensePlate = licensePlate
+  }
 
   parkVehicle(vehicle: Vehicle, coords: Location) {
     vehicle.location = coords
