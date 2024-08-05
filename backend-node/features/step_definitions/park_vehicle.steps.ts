@@ -18,7 +18,9 @@ let error;
 
 Before(function () {
   vehicle = new Vehicle('123', 'Toyota', 'Corolla', 'ABC123', undefined);
-  const fleet = new Fleet(1, new Map(), 1);
+  const fleetId: number = 1
+  const userId: number = 1
+  const fleet = new Fleet(fleetId, userId);
   const registerCommand = new RegisterVehicleCommand(vehicle, fleet);
   const registerHandler = new RegisterVehicleCommandHandler();
   registerHandler.handle(registerCommand);

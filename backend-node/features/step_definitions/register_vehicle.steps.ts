@@ -12,14 +12,14 @@ let error
 
 Given('my fleet', function () {
   const fleetId: number = 1
-  let userId: number = 1
-  fleet = new Fleet(fleetId, new Map(), userId);
+  const userId: number = 1
+  fleet = new Fleet(fleetId, userId);
 });
 
 Given('the fleet of another user', function () {
-  let anotherFleetId: number = 2
-  let anotherUserId: number = 2
-  otherUserfleet = new Fleet(anotherFleetId, new Map(), anotherUserId);
+  const anotherFleetId: number = 2
+  const anotherUserId: number = 2
+  otherUserfleet = new Fleet(anotherFleetId, anotherUserId);
 });
 
 Given('a vehicle', function () {
