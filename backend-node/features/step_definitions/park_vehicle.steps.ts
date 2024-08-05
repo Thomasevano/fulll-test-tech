@@ -11,6 +11,7 @@ import { GetVehicleLocationQuery } from "../../src/App/queries/definitions/get_v
 import { GetVehicleLocationQueryHandler } from "../../src/App/queries/handler/get_vehicle_location_query_handler.js";
 import { FleetRepository } from "../../src/Domain/repositories/fleet.repository.js";
 import { db } from "../../db/database.js";
+import { VehicleRepository } from "../../src/Domain/repositories/vehicle.repository.js";
 
 let vehicle: Vehicle;
 let location: Location;
@@ -20,6 +21,9 @@ let error;
 
 const fleetRepository: FleetRepository = new FleetRepository(db);
 const RegisterVehicleHandler: RegisterVehicleCommandHandler = new RegisterVehicleCommandHandler(fleetRepository);
+
+const vehicleRepository: VehicleRepository = new VehicleRepository(db);
+const ParkVehicleHandler: ParkVehicleCommandHandler = new ParkVehicleCommandHandler(vehicleRepository)
 
 Before(function () {
   vehicle = new Vehicle(12, 'ABC123');
@@ -32,34 +36,37 @@ Before(function () {
 });
 
 Given('a location', function () {
-  location = new Location({ latitude: 48.8534951, longitude: 2.3483915 })
-  otherLocation = new Location({ latitude: 40.7127281, longitude: -74.0060152 })
+  const latitude: number = 48.8534951
+  const longitude: number = 2.3483915
+  location = new Location(latitude, longitude)
+
+  const otherLatitude: number = 40.7127281;
+  const otherLongitude: number = -74.0060152;
+  otherLocation = new Location(otherLatitude, otherLongitude)
 });
 
 When('I park my vehicle at this location', function () {
-  command = new ParkVehicleCommand(vehicle, location);
-  const handler = new ParkVehicleCommandHandler();
-  handler.handle(command);
+  command = new ParkVehicleCommand(vehicle.licensePlate, location);
+  ParkVehicleHandler.handle(command);
 });
 
-Then('the known location of my vehicle should verify this location', function () {
-  const query = new GetVehicleLocationQuery(vehicle);
-  const handler = new GetVehicleLocationQueryHandler();
-  const result = handler.getVehiculeLocation(query);
-  assert.equal(result, location);
+Then('the known location of my vehicle should verify this location', async function () {
+  // const query = new GetVehicleLocationQuery(vehicle);
+  // const handler = new GetVehicleLocationQueryHandler();
+  // const result = handler.getVehiculeLocation(query);
+  const vehicleQuery = await vehicleRepository.findByPlateNumber(vehicle.licensePlate)
+  assert.equal(vehicleQuery?.location, JSON.stringify(location));
 });
 
 Given('my vehicle has been parked into this location', function () {
-  command = new ParkVehicleCommand(vehicle, otherLocation);
-  const handler = new ParkVehicleCommandHandler();
-  handler.handle(command);
+  command = new ParkVehicleCommand(vehicle.licensePlate, otherLocation);
+  ParkVehicleHandler.handle(command);
 });
 
 When('I try to park my vehicle at this location', function () {
-  command = new ParkVehicleCommand(vehicle, otherLocation);
-  const handler = new ParkVehicleCommandHandler();
+  command = new ParkVehicleCommand(vehicle.licensePlate, otherLocation);
   try {
-    handler.handle(command);
+    ParkVehicleHandler.handle(command);
   } catch (err) {
     error = err;
   }
